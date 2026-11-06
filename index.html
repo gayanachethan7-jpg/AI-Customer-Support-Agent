@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memora AI - Customer Support Agent</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🤖%3C/text%3E%3C/svg%3E">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="app-container">
+
+        <aside class="sidebar">
+
+            <div class="logo">
+                <h2>Memora AI</h2>
+                <p>Smart Customer Support</p>
+            </div>
+
+            <button class="new-chat-btn">+ New Conversation</button>
+
+            <div class="conversation-history">
+                <h3>Recent Conversations</h3>
+                <ul id="conversation-list"></ul>
+            </div>
+
+            <div class="user-profile">
+                <div class="profile-icon">G</div>
+
+                <div class="profile-details">
+                    <h4>Guest User</h4>
+                    <p>Guest Mode</p>
+                </div>
+
+            </div>
+
+        </aside>
+
+        <main class="main-content">
+
+            <header class="chat-header">
+
+                <div class="agent-info">
+
+                    <div class="agent-icon">AI</div>
+
+                    <div>
+                        <h2>AI Support Agent</h2>
+                        <p>Ready to help</p>
+                    </div>
+
+                </div>
+
+                <div class="header-actions">
+
+                    <button class="memory-btn">View Memory</button>
+
+                    <button class="login-btn">Login / Sign Up</button>
+
+                </div>
+
+            </header>
+
+            <section class="welcome-section">
+
+                <h1>Hello! How can I help you today?</h1>
+
+                <p>
+                    Your personal AI support assistant is here to help.
+                    Start a conversation and get personalized assistance.
+                </p>
+
+            </section>
+
+            <section class="suggestions">
+
+                <button class="suggestion-card">Track an order</button>
+
+                <button class="suggestion-card">Request a refund</button>
+
+                <button class="suggestion-card">Product information</button>
+
+                <button class="suggestion-card">Account assistance</button>
+
+            </section>
+
+            <section class="chat-area" id="chat-area"></section>
+
+            <section class="chat-input-section">
+
+                <form class="chat-form" id="chat-form">
+
+                    <textarea
+                        id="user-input"
+                        placeholder="Message your AI support agent..."
+                        rows="1">
+                    </textarea>
+
+                    <button type="submit" class="send-btn">Send</button>
+
+                </form>
+
+                <p class="input-footer">
+                    Memora AI can make mistakes. Please verify important information.
+                </p>
+
+            </section>
+
+        </main>
+
+        <aside class="memory-panel">
+
+            <div class="memory-header">
+
+                <h2>Long-Term Memory</h2>
+
+                <button class="close-memory-btn">×</button>
+
+            </div>
+
+            <section class="memory-section">
+
+                <h3>Customer Profile</h3>
+
+                <div class="memory-card" id="customer-profile">
+                    <p>No customer information available.</p>
+                </div>
+
+            </section>
+
+            <section class="memory-section">
+
+                <h3>Remembered Preferences</h3>
+
+                <div class="memory-card" id="user-preferences">
+                    <p>No preferences saved yet.</p>
+                </div>
+
+            </section>
+
+            <section class="memory-section">
+
+                <h3>Previous Interactions</h3>
+
+                <div class="memory-card" id="previous-interactions">
+                    <p>No previous interactions available.</p>
+                </div>
+
+            </section>
+
+            <section class="memory-section">
+
+                <h3>Memory Management</h3>
+
+                <button class="edit-memory-btn">Edit Memory</button>
+
+                <button class="clear-memory-btn">Clear Memory</button>
+
+            </section>
+
+        </aside>
+
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
