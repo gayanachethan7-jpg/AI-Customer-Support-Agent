@@ -1,0 +1,211 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Customer Support</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #eef2ff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .chat-container {
+            width: 90%;
+            max-width: 650px;
+            height: 80vh;
+            background: white;
+            border-radius: 18px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .header {
+            background: #4338ca;
+            color: white;
+            padding: 22px;
+            text-align: center;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .header p {
+            margin: 8px 0 0;
+            font-size: 14px;
+        }
+
+        #chat-box {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .message {
+            padding: 12px 15px;
+            margin: 10px 0;
+            border-radius: 12px;
+            max-width: 85%;
+            line-height: 1.5;
+            overflow-wrap: anywhere;
+        }
+
+        .user {
+            background: #e0e7ff;
+            margin-left: auto;
+        }
+
+        .ai {
+            background: #f1f5f9;
+            margin-right: auto;
+        }
+
+        .input-area {
+            display: flex;
+            gap: 10px;
+            padding: 15px;
+            border-top: 1px solid #ddd;
+        }
+
+        #message {
+            flex: 1;
+            padding: 13px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            font-size: 15px;
+            min-width: 0;
+        }
+
+        button {
+            background: #4338ca;
+            color: white;
+            border: none;
+            padding: 13px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        button:hover {
+            background: #3730a3;
+        }
+
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="chat-container">
+
+        <div class="header">
+            <h1>🤖 AI Customer Support</h1>
+            <p>Always here to help you!</p>
+        </div>
+
+        <div id="chat-box">
+            <div class="message ai">
+                Hello! 👋 Welcome to AI Customer Support.
+                How can I help you today?
+            </div>
+        </div>
+
+        <div class="input-area">
+            <input
+                type="text"
+                id="message"
+                placeholder="Type your message..."
+            >
+            <button id="send-button" onclick="sendMessage()">Send</button>
+        </div>
+
+    </div>
+
+    <script>
+        let customerId = localStorage.getItem("customer_id");
+
+        if (!customerId) {
+            customerId = "customer_" + crypto.randomUUID();
+            localStorage.setItem("customer_id", customerId);
+        }
+
+        async function sendMessage() {
+            const input = document.getElementById("message");
+            const chatBox = document.getElementById("chat-box");
+            const button = document.getElementById("send-button");
+            const message = input.value.trim();
+
+            if (!message) return;
+
+            const userMessage = document.createElement("div");
+            userMessage.className = "message user";
+            userMessage.textContent = "You: " + message;
+            chatBox.appendChild(userMessage);
+
+            input.value = "";
+            button.disabled = true;
+            button.textContent = "Sending...";
+            const typingMessage = document.createElement("div");
+typingMessage.className = "message ai";
+typingMessage.textContent = "AI is typing...";
+chatBox.appendChild(typingMessage);
+
+            try {
+                const response = await fetch("/chat", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        message: message,
+                        customer_id: customerId
+                    })
+                });
+
+                const data = await response.json();
+                typingMessage.remove();
+                const aiMessage = document.createElement("div");
+                aiMessage.className = "message ai";
+                aiMessage.textContent = "AI: " + (data.reply || data.error || "Something went wrong.");
+                chatBox.appendChild(aiMessage);
+
+            } catch (error) {
+                typingMessage.remove();
+                const errorMessage = document.createElement("div");
+                errorMessage.className = "message ai";
+                errorMessage.textContent = "AI: Sorry, something went wrong.";
+                chatBox.appendChild(errorMessage);
+            }
+
+            button.disabled = false;
+            button.textContent = "Send";
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        document.getElementById("message").addEventListener("keydown", function(event) {
+            if (event.key === "Enter") {
+                sendMessage();
+            }
+        });
+    </script>
+
+</body>
+</html>
